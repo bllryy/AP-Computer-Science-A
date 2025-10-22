@@ -33,10 +33,22 @@ public class Main
         return out;
     }
 
-
     public static void sortElements(int list2[])
     {
         Arrays.sort(list2);
+    }
+
+    public static float avgElements(int[] list1)
+    {
+        float sum = 0;
+
+        for (int num : list1)
+        {
+            sum += num;
+        }
+
+        float avg = sum / list1.length;
+        return avg;
     }
 
     public static void main(String[] args)
@@ -60,6 +72,8 @@ public class Main
 
         int[] afterDelete = deleteElement(newList2, del);
         System.out.println("After delete: " + Arrays.toString(afterDelete));
+
+        System.out.println("Average of list1: " + avgElements(list1));
     }
 }
 
