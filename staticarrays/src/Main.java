@@ -1,21 +1,24 @@
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Main
 {
     public static int[] insertElement(int list2[], int x)
     {
         int[] newList2 = new int[list2.length + 1];
+        int mid = list2.length / 2; // middle index
 
-        // copy old elements
-        for (int i = 0; i < list2.length; i++)
-        {
-            newList2[i] = list2[i];
-        }
+        // Copy elements before the middle
+        System.arraycopy(list2, 0, newList2, 0, mid);
 
-        newList2[list2.length] = x;
+        // insert
+        newList2[mid] = x;
+
+        // Copy the remaining elements after the inserted value
+        System.arraycopy(list2, mid, newList2, mid + 1, list2.length - mid);
 
         return newList2;
-    }
+}
 
     public static int[] deleteElement(int list2[], int del)
     {
@@ -54,22 +57,35 @@ public class Main
     public static void main(String[] args)
     {
         int[] list1 = {0,1,2,3,4,5,6,7,8,9,10};
-        int[] list2 = {10,9,8,7,6,5,4,3,2,1,0};
-
         int x = 11;
-
         int del = 0;
 
-        System.out.println("List 1: "+ Arrays.toString(list1));
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Enter the size of the list2: ");
+        int n = sc.nextInt();
+
+
+        int[] list2 = new int[n];
+        System.out.println("Enter " + n + " integers for list2:");
+        for(int i = 0; i < n; i++)
+        {
+            list2[i] = sc.nextInt();
+        }
+
+        System.out.println("List 1: " + Arrays.toString(list1));
         System.out.println("List 2: " + Arrays.toString(list2));
 
-        int newList2[] = insertElement(list2, x);
-
+        System.out.print("Enter a value to insert at the middle of list2: ");
+        x = sc.nextInt();
+        int[] newList2 = insertElement(list2, x);
         System.out.println("Inserted List2: " + Arrays.toString(newList2));
 
-        sortElements(newList2);
+        sortElements(list2);
         System.out.println("Sorted List 2: " + Arrays.toString(newList2));
 
+        System.out.print("Enter an index to delete (0.." + (newList2.length - 1) + "): ");
+        del = sc.nextInt();
         int[] afterDelete = deleteElement(newList2, del);
         System.out.println("After delete: " + Arrays.toString(afterDelete));
 
