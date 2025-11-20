@@ -98,7 +98,77 @@ public class Picture extends SimplePicture
     }
   }
   
-  /** Method that mirrors the picture around a 
+  /** Method to keep only the blue values */
+  public void keepOnlyBlue()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+    for (Pixel[] rowArray : pixels)
+    {
+      for (Pixel pixelObj : rowArray)
+      {
+        pixelObj.setRed(0);
+        pixelObj.setGreen(0);
+      }
+    }
+  }
+
+  /** Method to negate all the pixels in the picture */
+  public void negate()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+    for (Pixel[] rowArray : pixels)
+    {
+      for (Pixel p : rowArray)
+      {
+        p.setRed(255 - p.getRed());
+        p.setGreen(255 - p.getGreen());
+        p.setBlue(255 - p.getBlue());
+      }
+    }
+  }
+
+  /** Method to convert the picture to gray */
+  public void grayscale()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+    for (Pixel[] rowArray : pixels)
+    {
+      for (Pixel p : rowArray)
+      {
+        int avg = (p.getRed() + p.getGreen() + p.getBlue()) / 3;
+        p.setRed(avg);
+        p.setGreen(avg);
+        p.setBlue(avg);
+      }
+    }
+  }
+
+  /** Method to fix underwater pictures to make fish easier to see */
+  public void fixUnderwater()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+    for (Pixel[] rowArray : pixels)
+    {
+      for (Pixel p : rowArray)
+      {
+        int r = p.getRed();
+        int g = p.getGreen();
+        int b = p.getBlue();
+        // boost red/green and reduce blue
+        if (b > r && b > g)
+        {
+          int newR = Math.min(255, (int)(r * 1.6));
+          int newG = Math.min(255, (int)(g * 1.6));
+          int newB = Math.max(0, (int)(b * 0.6));
+          p.setRed(newR);
+          p.setGreen(newG);
+          p.setBlue(newB);
+        }
+      }
+    }
+  }
+
+  /** Method that mirrors the picture around a
     * vertical mirror in the center of the picture
     * from left to right */
   public void mirrorVertical()
@@ -117,7 +187,49 @@ public class Picture extends SimplePicture
       }
     } 
   }
-  
+
+  /** Method that mirrors the picture around a
+    * vertical mirror in the center of the picture
+    * from right to left */
+  public void mirrorVerticalRightToLeft()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+    Pixel leftPixel = null;
+    Pixel rightPixel = null;
+    int width = pixels[0].length;
+    for (int row = 0; row < pixels.length; row++)
+    {
+      for (int col = 0; col < width / 2; col++)
+      {
+        leftPixel = pixels[row][col];
+        rightPixel = pixels[row][width - 1 - col];
+        // copy right->left
+        leftPixel.setColor(rightPixel.getColor());
+      }
+    }
+  }
+
+  /** Method that mirrors the picture around a
+    * horizontal mirror in the center of the picture
+    * from top to bottom */
+  public void mirrorHorizontal()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+    int height = pixels.length;
+    int width = pixels[0].length;
+    Pixel topPixel = null;
+    Pixel bottomPixel = null;
+    for (int row = 0; row < height / 2; row++)
+    {
+      for (int col = 0; col < width; col++)
+      {
+        topPixel = pixels[row][col];
+        // copy top pixel color to bottom to mirror top->bottom
+        bottomPixel.setColor(topPixel.getColor());
+      }
+    }
+  }
+
   /** Mirror just part of a picture of a temple */
   public void mirrorTemple()
   {
