@@ -56,10 +56,11 @@ public class PictureTester
   /** Method to test mirrorTemple */
   public static void testMirrorTemple()
   {
+    System.out.println("TEST: start");
     Picture temple = new Picture("temple.jpg");
-    temple.explore();
     temple.mirrorTemple();
-    temple.explore();
+    temple.write("images/out_mirrorTemple.jpg");
+    System.out.println("TEST: saved images/out_mirrorTemple.jpg");
   }
   
   /** Method to test the collage method */
@@ -105,6 +106,44 @@ public class PictureTester
     water.explore();
   }
 
+  /** Method to test mirrorArms */
+  public static void testMirrorArms()
+  {
+    Picture snowman = new Picture("snowman.jpg");
+    snowman.mirrorArms();
+    snowman.write("images/out_mirrorArms.jpg");
+    System.out.println("TEST: saved images/out_mirrorArms.jpg");
+  }
+
+  /** Method to test mirrorGull */
+  public static void testMirrorGull()
+  {
+    Picture gull = new Picture("seagull.jpg");
+    gull.mirrorGull();
+    gull.write("images/out_mirrorGull.jpg");
+    System.out.println("TEST: saved images/out_mirrorGull.jpg");
+  }
+
+   /** Method to test copying a partial region from one picture to another */
+  public static void testCopyPartial()
+  {
+    Picture canvas = new Picture("640x480.jpg");
+    Picture source = new Picture("flower1.jpg");
+    // copy a 70x70 area from source (rows 10..79, cols 10..79) into canvas at (50,50)
+    canvas.copy(source, 50, 50, 10, 79, 10, 79);
+    canvas.write("images/out_copyPartial.jpg");
+  }
+
+  /** Method to test myCollage (custom collage) */
+  public static void testMyCollage()
+  {
+    Picture canvas = new Picture("640x480.jpg");
+    canvas.myCollage();
+    // myCollage already saves out_myCollage.jpg, but save again on canvas for clarity
+    canvas.write("images/out_myCollage_canvas.jpg");
+    System.out.println("TEST: saved images/out_myCollage.jpg and images/out_myCollage_canvas.jpg");
+  }
+
   /** Main method for testing.  Every class can have a main
     * method in Java */
   public static void main(String[] args)
@@ -118,6 +157,11 @@ public class PictureTester
     testGrayscale();
     testFixUnderwater();
     testMirrorHorizontal();
+    testMirrorTemple();
+    testMirrorArms();
+    testMirrorGull();
+    testCopyPartial();
+    testMyCollage();
     //testKeepOnlyRed();
     //testKeepOnlyGreen();
     //testNegate();

@@ -1,0 +1,9 @@
+Check the calculation of the number of times the body of the nested loop executes by adding an
+integer count variable to the mirrorTemple method that starts out at 0 and increments
+inside the body of the loop. Print the value of count after the nested loop ends.
+2. Write the method mirrorArms to mirror the arms on the snowman (“snowman.jpg”) to
+make a snowman with 4 arms. Write a class (static) test method in PictureTester to test
+this new method and call it in the main method.
+3. Write the method mirrorGull to mirror the seagull (“seagull.jpg”) to the right so
+that there are two seagulls on the beach near each other. Write a class (static) test method in
+PictureTester to test this new method and call it in the main method.

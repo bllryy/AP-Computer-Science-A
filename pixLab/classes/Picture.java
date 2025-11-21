@@ -225,6 +225,7 @@ public class Picture extends SimplePicture
       {
         topPixel = pixels[row][col];
         // copy top pixel color to bottom to mirror top->bottom
+        bottomPixel = pixels[height - 1 - row][col];
         bottomPixel.setColor(topPixel.getColor());
       }
     }
@@ -236,7 +237,7 @@ public class Picture extends SimplePicture
     int mirrorPoint = 276;
     Pixel leftPixel = null;
     Pixel rightPixel = null;
-    int count = 0;
+    int count = 0; // count how many pixels are copied
     Pixel[][] pixels = this.getPixels2D();
     
     // loop through the rows
@@ -245,15 +246,75 @@ public class Picture extends SimplePicture
       // loop from 13 to just before the mirror point
       for (int col = 13; col < mirrorPoint; col++)
       {
-        
-        leftPixel = pixels[row][col];      
+        leftPixel = pixels[row][col];
         rightPixel = pixels[row]                       
                          [mirrorPoint - col + mirrorPoint];
         rightPixel.setColor(leftPixel.getColor());
+        count++;
       }
     }
+    System.out.println("mirrorTemple count: " + count);
   }
-  
+
+  /** Mirror the snowman's arms to make 4 arms (snowman.jpg) */
+  public void mirrorArms()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+    // These coordinates are chosen to capture the snowman's arms region
+    int startRow = 160;
+    int endRow = 190; // mirror point is endRow
+    int startCol = 100;
+    int endCol = 170;
+    int mirrorPoint = endRow;
+    int count = 0;
+    Pixel topPixel = null;
+    Pixel bottomPixel = null;
+    for (int row = startRow; row < mirrorPoint; row++)
+    {
+      for (int col = startCol; col < endCol; col++)
+      {
+        topPixel = pixels[row][col];
+        int bottomRow = mirrorPoint * 2 - row;
+        if (bottomRow >= 0 && bottomRow < pixels.length)
+        {
+          bottomPixel = pixels[bottomRow][col];
+          bottomPixel.setColor(topPixel.getColor());
+          count++;
+        }
+      }
+    }
+    System.out.println("mirrorArms copied pixels: " + count);
+  }
+
+  /** Mirror the seagull to the right so there are two seagulls (seagull.jpg) */
+  public void mirrorGull()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+    // Coordinates chosen to capture the gull region on the left
+    int startRow = 230;
+    int endRow = 320;
+    int startCol = 230;
+    int mirrorPoint = 345; // vertical mirror column
+    int count = 0;
+    Pixel leftPixel = null;
+    Pixel rightPixel = null;
+    for (int row = startRow; row < endRow; row++)
+    {
+      for (int col = startCol; col < mirrorPoint; col++)
+      {
+        leftPixel = pixels[row][col];
+        int rightCol = mirrorPoint * 2 - col;
+        if (rightCol >= 0 && rightCol < pixels[0].length)
+        {
+          rightPixel = pixels[row][rightCol];
+          rightPixel.setColor(leftPixel.getColor());
+          count++;
+        }
+      }
+    }
+    System.out.println("mirrorGull copied pixels: " + count);
+  }
+
   /** copy from the passed fromPic to the
     * specified startRow and startCol in the
     * current picture
@@ -285,6 +346,38 @@ public class Picture extends SimplePicture
     }   
   }
 
+  /** copy a rectangular region from fromPic into this picture
+    *  @param fromPic the picture to copy from
+    *  @param startRow the start row in this picture to copy to
+    *  @param startCol the start column in this picture to copy to
+    *  @param fromStartRow the start row in fromPic to copy from (inclusive)
+    *  @param fromEndRow the end row in fromPic to copy from (inclusive)
+    *  @param fromStartCol the start col in fromPic to copy from (inclusive)
+    *  @param fromEndCol the end col in fromPic to copy from (inclusive)
+    */
+  public void copy(Picture fromPic, int startRow, int startCol, int fromStartRow, int fromEndRow, int fromStartCol, int fromEndCol)
+  {
+    Pixel[][] toPixels = this.getPixels2D();
+    Pixel[][] fromPixels = fromPic.getPixels2D();
+    // clamp source bounds
+    int srcRows = fromPixels.length;
+    int srcCols = fromPixels[0].length;
+    int srcStartR = Math.max(0, fromStartRow);
+    int srcEndR = Math.min(fromEndRow, srcRows - 1);
+    int srcStartC = Math.max(0, fromStartCol);
+    int srcEndC = Math.min(fromEndCol, srcCols - 1);
+
+    int toRow = startRow;
+    for (int fromR = srcStartR; fromR <= srcEndR && toRow < toPixels.length; fromR++, toRow++)
+    {
+      int toCol = startCol;
+      for (int fromC = srcStartC; fromC <= srcEndC && toCol < toPixels[0].length; fromC++, toCol++)
+      {
+        toPixels[toRow][toCol].setColor(fromPixels[fromR][fromC].getColor());
+      }
+    }
+  }
+
   /** Method to create a collage of several pictures */
   public void createCollage()
   {
@@ -303,7 +396,44 @@ public class Picture extends SimplePicture
   }
   
   
-  /** Method to show large changes in color 
+  /** Create a custom collage using at least three pictures and manipulations
+    *  Saves the result to images/out_myCollage.jpg and prints a confirmation
+    */
+  public void myCollage()
+  {
+    // base pictures
+    Picture p1 = new Picture("flower1.jpg");
+    Picture p2 = new Picture("flower2.jpg");
+    Picture p3 = new Picture("seagull.jpg");
+
+    // variants
+    Picture p1copy = new Picture(p1);
+    p1copy.zeroBlue();
+
+    Picture p2copy = new Picture(p2);
+    p2copy.negate();
+
+    Picture p3copy = new Picture(p3);
+    p3copy.grayscale();
+
+    // place three manipulated pictures on the canvas
+    this.copy(p1copy, 0, 0);
+    this.copy(p2copy, 100, 0);
+    this.copy(p3copy, 200, 0);
+
+    // copy a partial region from p1 to create variety
+    // example: copy rows 10..80 and cols 10..80 of p1 into the canvas at (300,0)
+    this.copy(p1, 300, 0, 10, 80, 10, 80);
+
+    // mirror the canvas vertically to add a mirrored effect
+    this.mirrorVertical();
+
+    // save and report
+    this.write("images/out_myCollage.jpg");
+    System.out.println("myCollage: saved images/out_myCollage.jpg");
+  }
+
+  /** Method to show large changes in color
     * @param edgeDist the distance for finding edges
     */
   public void edgeDetection(int edgeDist)
