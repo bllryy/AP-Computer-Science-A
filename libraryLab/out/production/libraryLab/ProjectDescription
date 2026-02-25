@@ -1,0 +1,136 @@
+The Library Class
+
+Patron (server)
+_________
+String name
+ArrayList <Books>
+int IDnum
+
+Book (Server)
+_________
+String title
+String author
+int ISBN
+boolean isCheckedOut
+
+Library (Client)
+___________
+main
+interaction for inputs
+
+menu - if else OR switch
+
+methods ~
+
+
+__	1.	ArrayList instance variable declaration
+
+__	2.	instantiation of an object
+
+__	3.	mutator
+
+__	4.	accessor
+
+__	5.	concatenation
+
+__	6.	library method
+
+__	7.	Header of method called by the command: System.out.print (b1);  //when b1 is a Book object
+
+__	8.	casting statement
+
+__	9.	default constructor
+
+__	10.	“copy” constructor with an object parameter
+
+__	11.	constructor which takes multiple parameters
+
+__	12.	server class header
+
+__	13.	client class header
+
+__	14.	start of a menu based on user input options
+
+__	15.	a method or block of code to check out a Book
+
+__      16.     a method or block of code to traverse an ArrayList
+
+__      17.     a method or block of code to add a new Book
+
+__      18.     a method or block of code to print a list of Patrons
+
+__      19.     FREE SPACE!!  You’ve earned a FREE POINT!
+
+__      20.     a method or block of code that does something especially awesome!  Tell me what it is:
+
+
+This assignment is worth 40 points – 10 for the Book class, 10 for the Patron class and 20 for the Library class.  Any items that you add beyond those listed for the Library will count two (2) extra credit points each.  Use this sheet as a checklist to check off the capabilities that you complete.  Good luck!
+
+
+								Each check is worth 2 points:
+My Book class:
+
+Has instance variables for title, author and ISBN 					__________
+
+Has a default constructor								__________
+
+Has a parameter constructor and an object constructor  				__________
+
+Has accessors and mutators for title, author and ISBN 				__________
+
+Has a toString method									__________
+
+
+My Patron class:
+
+Has instance variables for name and an ArrayList of Books				__________
+
+Has a default constructor								__________
+
+Has a parameter constructor and an object constructor  				__________
+
+Has accessors and mutators for name and books	 			 	__________
+
+Has a toString method								 	__________
+
+
+TOTAL Front:		     	__________
+
+
+
+
+
+
+
+My Library class:
+
+Has an ArrayList for Books							 	__________
+
+Has an ArrayList for Patrons							 	__________
+
+Has a menu to interact with the user			  			 	__________
+
+Has methods called when a user selects an action	 			 	__________
+
+Can print the Book list								__________
+
+Can print the Patron list								__________
+
+Can add a Book									__________
+
+Can add a Patron									__________
+
+Can check out a Book									__________
+
+Can return a Book									__________
+
+Does something really awesome to deserve extra credit!!  (up to 6 points):
+
+_______________________________________________________		__________
+
+_______________________________________________________		__________
+
+_______________________________________________________		__________
+
+
+TOTAL Back:		     	__________
