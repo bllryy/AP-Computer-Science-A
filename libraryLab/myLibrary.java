@@ -15,8 +15,14 @@ public class myLibrary
 {
     public static void main(String[] args)
     {
+        /*
+        1. Array List Variable decelaration
+         */
         ArrayList<myBook> books = new ArrayList<>();
         ArrayList<myPatron> patrons = new ArrayList<>();
+        /*
+        2. Instaniation of an object
+         */
         Scanner scanner = new Scanner(System.in);
         int choice = 0;
 
